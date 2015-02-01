@@ -108,4 +108,12 @@ public class OrderQueueTest {
         assertEquals(result, order);
         assertNull(result.getTimeProcessed());
     }
+    
+    @Test
+    public void testGetNextWhenNoOrdersInSystemThenReturnNull() throws OrderQueue.NoCustomerException, OrderQueue.NoPurchasesException {
+        OrderQueue orderQueue = new OrderQueue();
+        
+        Order result = orderQueue.next();
+        assertNull(result);
+    }
 }
