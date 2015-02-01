@@ -53,12 +53,23 @@ public class OrderQueue {
 //                    isOkay = false;
 //            }
 //            if (isOkay) {
-                orderList.add(orderQueue.remove());
-                next.setTimeProcessed(new Date());
+            orderList.add(orderQueue.remove());
+            next.setTimeProcessed(new Date());
 //            }
-        }
-        else if (next.getTimeReceived() == null) {
+        } else if (next.getTimeReceived() == null) {
             throw new NoTimeReceivedException();
+        }
+    }
+
+    void fulfill(Order next) throws NoTimeReceivedException, NoTimeProcessedException {
+        if (next.getTimeReceived() == null) {
+            throw new NoTimeReceivedException();
+        }
+        if (next.getTimeProcessed() == null) {
+            throw new NoTimeProcessedException();
+        }
+        if (orderList.contains(next)) {
+            next.setTimeFulfilled(new Date());
         }
     }
 
@@ -75,10 +86,18 @@ public class OrderQueue {
             super("No Purchases Provided");
         }
     }
-    
+
     public class NoTimeReceivedException extends Exception {
+
         public NoTimeReceivedException() {
             super("No Time Received on this Order");
+        }
+    }
+
+    public class NoTimeProcessedException extends Exception {
+
+        public NoTimeProcessedException() {
+            super("No Time Processed on this Order");
         }
     }
 }
