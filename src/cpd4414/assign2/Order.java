@@ -13,18 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cpd4414.assign2;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
  * @author Len Payne <len.payne@lambtoncollege.ca>
  */
 public class Order {
+
     private String customerId;
     private String customerName;
     private Date timeReceived;
@@ -32,12 +34,12 @@ public class Order {
     private Date timeFulfilled;
     private List<Purchase> listOfPurchases = new ArrayList<>();
     private String notes;
-    
+
     public Order(String customerId, String customerName) {
         this.customerId = customerId;
         this.customerName = customerName;
     }
-    
+
     public void addPurchase(Purchase p) {
         listOfPurchases.add(p);
     }
@@ -97,6 +99,24 @@ public class Order {
     public void setNotes(String notes) {
         this.notes = notes;
     }
-    
-    
+
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        json.put("customerId", getCustomerId());
+        json.put("customerName", getCustomerName());
+
+        json.put("timeReceived", (getTimeReceived() != null) ? getTimeReceived().toString() : null);
+        json.put("timeProcessed", (getTimeProcessed() != null) ? getTimeProcessed().toString() : null);
+        json.put("timeFulfilled", (getTimeFulfilled() != null) ? getTimeFulfilled().toString() : null);
+        JSONArray pList = new JSONArray();
+        for (Purchase p : getListOfPurchases()) {
+            JSONObject pObj = new JSONObject();
+            pObj.put("productId", p.getProductId());
+            pObj.put("quantity", p.getQuantity());
+            pList.add(pObj);
+        }
+        json.put("purchases", pList);
+        json.put("notes", getNotes());
+        return json;
+    }
 }
