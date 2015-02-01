@@ -264,9 +264,7 @@ public class OrderQueueTest {
         expResult.put("orders", orders);
 
         String resultString = orderQueue.report();
-        System.out.println(resultString);
         JSONObject result = (JSONObject) JSONValue.parseWithException(resultString);
-        System.out.println(result);
         assertEquals(expResult.toJSONString(), result.toJSONString());
     }
 }
