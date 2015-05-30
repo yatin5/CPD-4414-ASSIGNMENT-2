@@ -18,7 +18,7 @@ package cpd4414.assign2;
 
 /**
  *
- * @author YATIN PATEL
+ * @author YATIN PATEL - c0654874
  */
 public class Purchase {
     private int productId;
